@@ -16,6 +16,9 @@
 		844ADD9825DB82D900BB627A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844ADD9625DB82D900BB627A /* LaunchScreen.storyboard */; };
 		844ADDA325DB82D900BB627A /* uasmmsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844ADDA225DB82D900BB627A /* uasmmsTests.swift */; };
 		844ADDAE25DB82D900BB627A /* uasmmsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844ADDAD25DB82D900BB627A /* uasmmsUITests.swift */; };
+		84AC26F525DD85C1002CF136 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC26F325DD85C1002CF136 /* CustomTableViewCell.swift */; };
+		84AC26F625DD85C1002CF136 /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84AC26F425DD85C1002CF136 /* CustomTableViewCell.xib */; };
+		84AC26FB25DDB00D002CF136 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AC26FA25DDB00D002CF136 /* Definition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		844ADDA925DB82D900BB627A /* uasmmsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = uasmmsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844ADDAD25DB82D900BB627A /* uasmmsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uasmmsUITests.swift; sourceTree = "<group>"; };
 		844ADDAF25DB82D900BB627A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84AC26F325DD85C1002CF136 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		84AC26F425DD85C1002CF136 /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		84AC26FA25DDB00D002CF136 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,9 @@
 				844ADD9625DB82D900BB627A /* LaunchScreen.storyboard */,
 				844ADD9925DB82D900BB627A /* Info.plist */,
 				844ADD9125DB82D800BB627A /* uasmms.xcdatamodeld */,
+				84AC26F325DD85C1002CF136 /* CustomTableViewCell.swift */,
+				84AC26F425DD85C1002CF136 /* CustomTableViewCell.xib */,
+				84AC26FA25DDB00D002CF136 /* Definition.swift */,
 			);
 			path = uasmms;
 			sourceTree = "<group>";
@@ -236,6 +245,7 @@
 			files = (
 				844ADD9825DB82D900BB627A /* LaunchScreen.storyboard in Resources */,
 				844ADD9525DB82D900BB627A /* Assets.xcassets in Resources */,
+				84AC26F625DD85C1002CF136 /* CustomTableViewCell.xib in Resources */,
 				844ADD9025DB82D800BB627A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,8 +272,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				844ADD8D25DB82D800BB627A /* ViewController.swift in Sources */,
+				84AC26F525DD85C1002CF136 /* CustomTableViewCell.swift in Sources */,
 				844ADD9325DB82D800BB627A /* uasmms.xcdatamodeld in Sources */,
 				844ADD8925DB82D800BB627A /* AppDelegate.swift in Sources */,
+				84AC26FB25DDB00D002CF136 /* Definition.swift in Sources */,
 				844ADD8B25DB82D800BB627A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
