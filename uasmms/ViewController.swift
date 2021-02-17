@@ -46,6 +46,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         guard let url = URL(string: urlString) else {
             return
         }
+        self.Definitions.removeAll()
         var urlReq = URLRequest(url: URL(string: "\(url)\(word)")!)
         urlReq.allHTTPHeaderFields = ["Authorization": "Token 93eefdf64a963c2b970768dfc1b897f4bf8e7a9d"]
         let task = URLSession.shared.dataTask(with: urlReq) { (data, _, error) in
@@ -94,8 +95,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let word = searchBar.text! as String
+        if (word.count < 3) {
+            makeAlert(title: "Error", message: "You have to input at least 3 characters", button: "OK :(")
+            Definitions.removeAll()
+            table.reloadData()
+            return
+        }
         callApi(word: word)
     }
+    
+    func makeAlert(title: String, message: String, button: String){
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let close = UIAlertAction(title: button, style: .cancel, handler: nil)
+            alert.addAction(close)
+            
+            present(alert, animated: true, completion: nil)
+        }
 
 }
 
