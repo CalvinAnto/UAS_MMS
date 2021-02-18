@@ -19,17 +19,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     @IBOutlet var table: UITableView!
     @IBOutlet var searchBar: UISearchBar!
+    @IBOutlet weak var favSwitch: UISwitch!
     let words = ["Cat", "Dog", "Fox", "Shark", "Phoenix", "Dragon", "Duck", "Tiger", "Psychopath", "Demon", "Angel"]
     let urlString = "https://owlbot.info/api/v4/dictionary/"
     var Definitions: [Definition] = []
-    var curr: APIResponse?
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var word: String! = ""
     
+    var indexedWords: [String] = []
+    
+    @IBAction func favSwitchAction(_ sender: Any) {
+        if favSwitch.isOn {
+            createItem()
+        } else {
+            deleteItem()
+        }
+        getAllItems()
+    }
     @IBAction func randomBtn(_ sender: Any) {
-        var word = words[Int.random(in: 0..<words.count)]
+        word = words[Int.random(in: 0..<words.count)]
         print(word)
         callApi(word: word)
         searchBar.text = word
+        if indexedWords.contains(word.lowercased()) {
+            favSwitch.setOn(true, animated: true)
+        } else {
+            favSwitch.setOn(false, animated: true)
+        }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +52,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         table.delegate = self
         table.dataSource = self
         searchBar.delegate = self
-//        print(Int.random(in: 0..<words.count))
+        getAllItems()
+        word = words[Int.random(in: 0..<words.count)]
+        callApi(word: word)
+        searchBar.text = word
+        if indexedWords.contains(word.lowercased()) {
+            favSwitch.setOn(true, animated: true)
+        } else {
+            favSwitch.setOn(false, animated: true)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,8 +83,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             do {
                 let result = try JSONDecoder().decode(APIResponse.self, from: data)
                 self.Definitions = result.definitions
-                self.curr?.word = result.word
-                self.curr?.pronunciation = result.pronunciation
                 
             }
             catch {
@@ -99,7 +120,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let word = searchBar.text! as String
+        word = searchBar.text! as String
         if (word.count < 3) {
             makeAlert(title: "Error", message: "You have to input at least 3 characters", button: "OK :(")
             Definitions.removeAll()
@@ -107,6 +128,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return
         }
         callApi(word: word)
+        if indexedWords.contains(word.lowercased()) {
+            favSwitch.setOn(true, animated: true)
+        } else {
+            favSwitch.setOn(false, animated: true)
+        }
     }
     
     func makeAlert(title: String, message: String, button: String){
@@ -117,49 +143,75 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         present(alert, animated: true, completion: nil)
     }
     
-    func addNewWord(word: APIResponse) {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Word")
+    func getAllItems() {
+        indexedWords.removeAll()
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Words")
         var result = [NSManagedObject]()
         do {
             result = try context.fetch(request) as! [NSManagedObject]
         } catch {
-            print("Failed to load data")
+            print("Failed Getting Items")
         }
-        for item in result{
-            if item.value(forKeyPath: "word") as? String == word.word{
-                makeAlert(title: "Error", message: "Duplicated Word", button: "ok :(")
-                print("Duplicate word found")
-                return
-            }
-        }
-        let entity = NSEntityDescription.entity(forEntityName: "Word", in: context)
-        let newWord = NSManagedObject(entity: entity!, insertInto: context)
-        newWord.setValue(word.word , forKey: "word")
-        
-        var defi = ""
-        
-        for def in Definitions {
-//            cara append String gimana?
-            if (defi.count < 1) {
-                defi = "\(def.type);\(def.definition);\(def.image_url)"
-            }
-            defi = "\(defi)|\(def.type);\(def.definition);\(def.image_url)"
-        }
-        
-        newWord.setValue(defi, forKey: "definition")
-
-        do {
-            try context.save()
-            makeAlert(title: "Word Added", message: "New word added successfully", button: "Yay")
-            print("New word added successfully")
-        } catch {
-            print(error.localizedDescription)
+        for data in result {
+            self.indexedWords.append(data.value(forKeyPath: "word") as! String)
         }
     }
     
-    func getAllItems() {
+    func createItem() {
+        
+        if indexedWords.contains(word) {
+            makeAlert(title: "Error", message: "Already Inside Core Data", button: "Ok")
+            return
+        }
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Words", in: context)
+        let newItem = NSManagedObject(entity: entity!, insertInto: context)
+        
+        newItem.setValue(self.word.lowercased() as String, forKey: "word")
+        newItem.setValue("yes", forKey: "definition")
+        
+        do {
+            try context.save()
+            print("Saved")
+        }
+        catch {
+            print("Failed Saving")
+        }
+    }
+    
+    func deleteItem() {
+        if !indexedWords.contains(word.lowercased()) {
+            return
+        }
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Words")
+        var result = [NSManagedObject]()
+        do {
+            result = try context.fetch(request) as! [NSManagedObject]
+        } catch {
+            print("Failed Getting Items")
+        }
+        for data in result {
+            if data.value(forKeyPath: "word") as! String == word.lowercased() {
+                context.delete(data)
+            }
+        }
+        
+        do {
+            try context.save()
+            print("Deleted")
+        }
+        catch {
+            print("Failed Deleting")
+        }
         
     }
-
+    
+    @IBAction func unwindToHome(_ sender: UIStoryboardSegue) {
+        
+    }
 }
 
