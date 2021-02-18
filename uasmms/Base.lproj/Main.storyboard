@@ -138,6 +138,7 @@
                     <connections>
                         <outlet property="favTV" destination="gtD-BZ-4G4" id="pjd-5m-2wa"/>
                         <outlet property="noLabel" destination="QYx-Zo-QvS" id="gM9-3q-srl"/>
+                        <segue destination="xWQ-SU-zhk" kind="show" identifier="SendData" id="4zz-X5-VgB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tEb-Dt-Ixh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -145,16 +146,32 @@
             </objects>
             <point key="canvasLocation" x="849" y="59"/>
         </scene>
-        <!--View Controller-->
+        <!--Def View Controller-->
         <scene sceneID="sUe-Qb-G0b">
             <objects>
-                <viewController id="xWQ-SU-zhk" sceneMemberID="viewController">
+                <viewController id="xWQ-SU-zhk" customClass="DefViewController" customModule="uasmms" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SEh-dl-cmV">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yIz-oa-U52">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Lmk-oi-M2z"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yIz-oa-U52" firstAttribute="leading" secondItem="Lmk-oi-M2z" secondAttribute="leading" id="9BP-MT-HhW"/>
+                            <constraint firstItem="Lmk-oi-M2z" firstAttribute="bottom" secondItem="yIz-oa-U52" secondAttribute="bottom" id="cS8-Ld-zKK"/>
+                            <constraint firstItem="Lmk-oi-M2z" firstAttribute="trailing" secondItem="yIz-oa-U52" secondAttribute="trailing" id="d0P-x8-BD4"/>
+                            <constraint firstItem="yIz-oa-U52" firstAttribute="top" secondItem="Lmk-oi-M2z" secondAttribute="top" id="jKg-KE-6KI"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="JOO-0S-B8c"/>
+                    <connections>
+                        <outlet property="defTV" destination="yIz-oa-U52" id="ToV-5Z-dfb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNN-fO-3Ug" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -92,6 +92,19 @@ class FavViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "SendData", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SendData" {
+            let indexPath = self.favTV.indexPathForSelectedRow
+            let word = indexedWords[indexPath!.row]
+            let vc = segue.destination as! DefViewController
+            vc.word = word
+        }
+    }
+    
     @objc func didChangeSwitch(_ sender: UISwitch) {
         if sender.isOn {
             print("it's on")
