@@ -20,7 +20,11 @@ class CustomTableViewCell: UITableViewCell {
             myImageView.image = UIImage(systemName: "gear")
         }
         else {
-            myImageView.image = UIImage(systemName: imageName!)
+            let url = URL(string: imageName!)!
+            
+            if let data = try? Data(contentsOf: url) {
+                myImageView!.image = UIImage(data: data)
+            }
         }
         descLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         descLabel.numberOfLines = 0
